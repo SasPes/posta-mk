@@ -1,0 +1,27 @@
+{
+  "name": "aposta-mk",
+  "version": "1.0.0",
+  "description": "Macedonian post - Track your items | by SasPes",
+  "engines": {
+    "node": "5.9.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "ejs": "2.4.1",
+    "express": "4.13.3",
+    "request": "2.79.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SasPes/posta-mk"
+  },
+  "keywords": [
+    "track", 
+    "post", 
+    "macedonia"
+  ],
+  "license": "MIT"
+}
