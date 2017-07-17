@@ -5,7 +5,7 @@ if (window.location.href.endsWith("node")) {
     nodeUrl = window.location.origin + "/proxy?url=";
 }
 
-var urlPosta = nodeUrl + "http://posta.com.mk:82/Magic.asmx/TrackAndTrace";
+var urlPosta = nodeUrl + "http://www.posta.com.mk:82/Magic.asmx/TrackAndTrace";
 
 function httpGet(theUrl)
 {
@@ -22,36 +22,55 @@ function httpGetAsync(theUrl, callback, param)
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
             callback(xmlHttp.responseText, param);
     };
-    xmlHttp.open("GET", theUrl, true); // true for asynchronous 
-    xmlHttp.send(null);
+    xmlHttp.open("POST", theUrl, true); // true for asynchronous 
+    xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+    xmlHttp.send("code=" + param + "&language=MK");
 }
 
 var callbackJson = function (res, param) {
-    var jsonRes = JSON.parse(res);
-    data = [];
+    var xmlRes = $.parseXML(res);
+    $xml = $(xmlRes);
 
-    Object.keys(jsonRes.measurements).forEach(function (prop) {
-        data.push([param, prop + ":00", jsonRes.measurements[prop][station]]);
-    });
+    $TrackingData = $xml.find("TrackingData");
+    $Date = $TrackingData.find("Date");
+    $Notice = $TrackingData.find("Notice");
 
-    for (var i = data.length - 1; i > 0; i--) {
-        if (data[i][2] !== "") {
-            document.getElementById(param).innerHTML = data[i][0] + ": <b>" + data[i][2] + "</b> " + parameters[data[i][0]].unit +
-                    " <img src='img/info.png' width='12' height='12' alt='info' title='" + convertDate(data[i][1]) + "'/>" +
-                    " <b><font size='2' color='green'> < " + parameters[data[i][0]].good + " </font></b> ";
-            if (data[i][0] === "PM10") {
-                setIconText(data[i][2]);
-            }
-            break;
-        }
+
+    var trInfoDiv = document.getElementById(trackingNumbers.indexOf(param));
+    trInfoDiv.appendChild(document.createElement("br"));
+
+    for (var i = 0; i < $Date.length; i++) {
+        var dateTime = $Date[i].textContent.split(" ");
+        
+        var trInfoTimeDiv = document.createElement("div");
+        
+        var timeSpan = document.createElement("span");
+        timeSpan.className = "glyphicon glyphicon-time";
+        
+        var lockSpan = document.createElement("span");
+        lockSpan.className = "glyphicon glyphicon-lock";
+        
+        trInfoTimeDiv.appendChild(lockSpan);
+        trInfoTimeDiv.appendChild(document.createTextNode(" " + $Notice[i].textContent));
+        
+        var trInfoTimeDivR = document.createElement("span");
+        trInfoTimeDivR.style.cssText = "float: right;";
+        trInfoTimeDivR.appendChild(timeSpan);
+        trInfoTimeDivR.appendChild(document.createTextNode(" " + dateTime[0] + "<br/>" + dateTime[1]));
+        trInfoTimeDiv.appendChild(trInfoTimeDivR);
+        
+        trInfoTimeDiv.appendChild(document.createElement("br"));
+        trInfoTimeDiv.appendChild(document.createElement("hr"));
+        
+        trInfoDiv.appendChild(trInfoTimeDiv);
     }
 };
 
 var getData = function () {
-    for (var param in params) {
-        parameter = params[param];
-        document.getElementById(parameter).innerHTML = "\u043D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0458\u0430";
-        httpGetAsync(getUrlReq(), callbackJson, parameter);
+    for (var param in trackingNumbers) {
+        var parameter = trackingNumbers[param];
+//        document.getElementById(parameter).innerHTML = "\u043D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0458\u0430";
+        httpGetAsync(urlPosta, callbackJson, parameter);
     }
 };
 
@@ -74,7 +93,7 @@ var addTrackingNumber = function () {
 
 var showTrackingNumbers = function () {
     var trList = document.getElementById("tracking-numbers");
-    trList.style.cssText = "padding-left: 50px;";
+    trList.style.cssText = "padding-left: 35px;";
 
     var trDivTempRemove = document.getElementById("trDivTemp");
     if (trDivTempRemove) {
@@ -107,7 +126,7 @@ var showTrackingNumbers = function () {
             text-align: left; \n\
             padding-left: 5px; \n\
             background-color: AliceBlue; \n\
-            width: 200px;\n\
+            width: 330px;\n\
         ";
         var trB = document.createElement("b");
         var trNum = document.createTextNode(" " + trackingNumbers[tr]);
@@ -115,14 +134,14 @@ var showTrackingNumbers = function () {
         trB.appendChild(trNum);
         trDiv.appendChild(trB);
 
-        var trInfoDiv = document.createElement("dvi");
+        var trInfoDiv = document.createElement("div");
 
         var idAtt = document.createAttribute("id");
         idAtt.value = tr;
         trInfoDiv.setAttributeNode(idAtt);
         trInfoDiv.className = "collapse";
-        trInfoDiv.style.cssText = "text-align: left; font-size: 12px; width: 200px;";
-        trInfoDiv.appendChild(document.createTextNode("\u041D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438"));
+        trInfoDiv.style.cssText = "text-align: left; font-size: 12px; width: 330px;";
+//        trInfoDiv.appendChild(document.createTextNode("\u041D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438"));
 
         var trashSpan = document.createElement("span");
         trashSpan.className = "glyphicon glyphicon-trash";
@@ -157,8 +176,9 @@ var init = function () {
             });
 
     showTrackingNumbers();
+
     // data get
-//    getData();
+    getData();
 };
 
 var reloadClicks = function () {

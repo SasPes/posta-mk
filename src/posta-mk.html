@@ -7,15 +7,16 @@
 
         <script type="text/javascript" src="js/posta-mk.js" charset="windows-1251"></script>
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="js/libs/bootstrap.min.css">
+        <script src="js/libs/jquery.min.js"></script>
+        <script src="js/libs/bootstrap.min.js"></script>
     </head>
-    <body style="text-align: center; color: #333f4f; width:300px; height:100%">
-
-        <img style="position: fixed; top: 10px; left: 10px;" src="img/posta-mk.png" width="42" height="30" alt="posta-mk"/> 
-        <span>Македонска Пошта<br/>Следење на пратки</span>
+    <body style="text-align: center; color: #333f4f; width:400px; height:100%">
+        <br/>
+        <img style="top: 10px; left: 10px;" src="img/posta-mk.png" width="42" height="30" alt="posta-mk"/> &nbsp;
+        <span><b>Македонска Пошта - Следење на пратки</b></span>
         <br/><br/>
+        <span style="font-size: 13px">Додај број на пратка</span>
         <input type="text" id="trackingNumber" name="trackingNumber" required><button id="addButton" type="button" onclick="addTrackingNumber()">+</button>
         <br/><br/>
         <div id="tracking-numbers"></div>

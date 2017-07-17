@@ -11,11 +11,8 @@
         "48": "img/posta-mk.png",
         "128": "img/posta-mk.png"
     },
-    "background": {
-        "page": "background.html"
-    },
     "permissions": [
-        "http://www.posta.com.mk*"
+        "http://www.posta.com.mk:82/*"
     ],
     "author": "SasPes",
     "manifest_version": 2,
