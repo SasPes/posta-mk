@@ -201,6 +201,7 @@ var reloadClicks = function () {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('addButton').addEventListener('click', addTrackingNumber);
     init();
     reloadClicks();
 });
