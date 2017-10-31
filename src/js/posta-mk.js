@@ -26,7 +26,8 @@ var callbackJson = function (res, param) {
     $TrackingData = $xml.find("TrackingData");
     $Date = $TrackingData.find("Date");
     $Notice = $TrackingData.find("Notice");
-
+    $Begining = $TrackingData.find("Begining");
+    $End = $TrackingData.find("End");
 
     var trInfoDiv = document.getElementById(trackingNumbers.indexOf(param));
     trInfoDiv.appendChild(document.createElement("hr"));
@@ -37,12 +38,17 @@ var callbackJson = function (res, param) {
         var trInfoTimeDiv = document.createElement("div");
 
         var trInfoTimeDivR = document.createElement("span");
-        trInfoTimeDivR.style.cssText = "float: left;";
-        trInfoTimeDivR.appendChild(document.createTextNode(dateTime));
+        trInfoTimeDivR.appendChild(document.createTextNode("🕒 " + dateTime));
         trInfoTimeDiv.appendChild(trInfoTimeDivR);
 
         trInfoTimeDiv.appendChild(document.createElement("br"));
-        trInfoTimeDiv.appendChild(document.createTextNode($Notice[i].textContent));
+        trInfoTimeDiv.appendChild(document.createTextNode($Begining[i].textContent.split("(the former Yugoslav Republic of)")[0] + " ⇒ " + $End[i].textContent));
+
+        trInfoTimeDiv.appendChild(document.createElement("br"));
+        var trB = document.createElement("b");
+        var note = document.createTextNode("🗒 " + $Notice[i].textContent);
+        trB.appendChild(note);
+        trInfoTimeDiv.appendChild(trB);
 
         trInfoTimeDiv.appendChild(document.createElement("hr"));
 
@@ -77,6 +83,7 @@ var addTrackingNumber = function () {
     document.getElementById('trackingNumber').value = "";
     showTrackingNumbers();
     reloadClicks();
+    getData();
 };
 
 var showTrackingNumbers = function () {
@@ -183,10 +190,12 @@ var reloadClicks = function () {
         });
 
         $('#trashSpan' + tr).click(function () {
-            trackingNumbers.splice(tr, 1);
-            localStorage.setItem('trackingNumbers', JSON.stringify(trackingNumbers));
-            showTrackingNumbers();
-            reloadClicks();
+            if (confirm('Дали навистина скате да го избришете бројот на пратка?')) {
+                trackingNumbers.splice(tr, 1);
+                localStorage.setItem('trackingNumbers', JSON.stringify(trackingNumbers));
+                showTrackingNumbers();
+                reloadClicks();
+            }
         });
     }
 };
