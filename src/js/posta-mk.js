@@ -5,15 +5,7 @@ if (window.location.href.endsWith("node")) {
     nodeUrl = window.location.origin + "/proxy?url=";
 }
 
-var urlPosta = nodeUrl + "http://www.posta.com.mk:82/Magic.asmx/TrackAndTrace";
-
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, false); // false for synchronous request
-    xmlHttp.send(null);
-    return xmlHttp.responseText;
-}
+var urlPosta = nodeUrl + "http://www.posta.com.mk/tnt/api/query?id=";
 
 function httpGetAsync(theUrl, callback, param)
 {
@@ -22,9 +14,9 @@ function httpGetAsync(theUrl, callback, param)
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
             callback(xmlHttp.responseText, param);
     };
-    xmlHttp.open("POST", theUrl, true); // true for asynchronous 
+    xmlHttp.open("GET", theUrl + param, true); // true for asynchronous 
     xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-    xmlHttp.send("code=" + param + "&language=MK");
+    xmlHttp.send();
 }
 
 var callbackJson = function (res, param) {
@@ -37,31 +29,23 @@ var callbackJson = function (res, param) {
 
 
     var trInfoDiv = document.getElementById(trackingNumbers.indexOf(param));
-    trInfoDiv.appendChild(document.createElement("br"));
+    trInfoDiv.appendChild(document.createElement("hr"));
 
     for (var i = 0; i < $Date.length; i++) {
-        var dateTime = $Date[i].textContent.split(" ");
-        
+        var dateTime = $Date[i].textContent;
+
         var trInfoTimeDiv = document.createElement("div");
-        
-        var timeSpan = document.createElement("span");
-        timeSpan.className = "glyphicon glyphicon-time";
-        
-        var lockSpan = document.createElement("span");
-        lockSpan.className = "glyphicon glyphicon-lock";
-        
-        trInfoTimeDiv.appendChild(lockSpan);
-        trInfoTimeDiv.appendChild(document.createTextNode(" " + $Notice[i].textContent));
-        
+
         var trInfoTimeDivR = document.createElement("span");
-        trInfoTimeDivR.style.cssText = "float: right;";
-        trInfoTimeDivR.appendChild(timeSpan);
-        trInfoTimeDivR.appendChild(document.createTextNode(" " + dateTime[0] + "<br/>" + dateTime[1]));
+        trInfoTimeDivR.style.cssText = "float: left;";
+        trInfoTimeDivR.appendChild(document.createTextNode(dateTime));
         trInfoTimeDiv.appendChild(trInfoTimeDivR);
-        
+
         trInfoTimeDiv.appendChild(document.createElement("br"));
+        trInfoTimeDiv.appendChild(document.createTextNode($Notice[i].textContent));
+
         trInfoTimeDiv.appendChild(document.createElement("hr"));
-        
+
         trInfoDiv.appendChild(trInfoTimeDiv);
     }
 };
@@ -69,7 +53,6 @@ var callbackJson = function (res, param) {
 var getData = function () {
     for (var param in trackingNumbers) {
         var parameter = trackingNumbers[param];
-//        document.getElementById(parameter).innerHTML = "\u043D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0458\u0430";
         httpGetAsync(urlPosta, callbackJson, parameter);
     }
 };
@@ -77,9 +60,14 @@ var getData = function () {
 var addTrackingNumber = function () {
     var trackingNumber = document.getElementById('trackingNumber').value;
 
+    if (trackingNumber === '') {
+        alert('Внеси број на пратка');
+        return;
+    }
+
     for (var i = 0; i < trackingNumbers.length; i++) {
         if (trackingNumbers[i] === trackingNumber) {
-            alert('Item Exist');
+            alert('Број на пратката веќе постои');
             return;
         }
     }
@@ -118,7 +106,7 @@ var showTrackingNumbers = function () {
 
         var trSpan = document.createElement("span");
         trSpan.className = "glyphicon glyphicon-menu-down";
-        trSpan.style.cssText = "font-size: 10px;";
+        trSpan.style.cssText = "font-size: 10px; top: 0;";
         $(trSpan).attr('id', 'span' + tr);
 
         trDiv.style.cssText = "\
@@ -132,6 +120,13 @@ var showTrackingNumbers = function () {
         var trNum = document.createTextNode(" " + trackingNumbers[tr]);
         trB.appendChild(trSpan);
         trB.appendChild(trNum);
+
+        var trashSpan = document.createElement("span");
+        trashSpan.className = "glyphicon glyphicon-trash";
+        trashSpan.style.cssText = "font-size: 12px; float: right; padding-top: 4px; padding-right: 4px;";
+        $(trashSpan).attr('id', 'trashSpan' + tr);
+        trDiv.appendChild(trashSpan);
+
         trDiv.appendChild(trB);
 
         var trInfoDiv = document.createElement("div");
@@ -141,13 +136,6 @@ var showTrackingNumbers = function () {
         trInfoDiv.setAttributeNode(idAtt);
         trInfoDiv.className = "collapse";
         trInfoDiv.style.cssText = "text-align: left; font-size: 12px; width: 330px;";
-//        trInfoDiv.appendChild(document.createTextNode("\u041D\u0435\u043C\u0430 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438"));
-
-        var trashSpan = document.createElement("span");
-        trashSpan.className = "glyphicon glyphicon-trash";
-        trashSpan.style.cssText = "font-size: 12px; float: right; padding-top: 4px; padding-right: 4px;";
-        $(trashSpan).attr('id', 'trashSpan' + tr);
-        trInfoDiv.appendChild(trashSpan);
 
         trDivTemp.appendChild(trDiv);
         trDivTemp.appendChild(trInfoDiv);

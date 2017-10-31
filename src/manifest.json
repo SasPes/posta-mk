@@ -12,7 +12,7 @@
         "128": "img/posta-mk.png"
     },
     "permissions": [
-        "http://www.posta.com.mk:82/*"
+        "http://www.posta.com.mk/*"
     ],
     "author": "SasPes",
     "manifest_version": 2,
