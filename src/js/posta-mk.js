@@ -75,7 +75,7 @@ var setTrackingNumberUpdates = function (trackingNumber, dataLength) {
         if (trNo !== dataLength) {
             var bulletSpan = document.getElementById(trackingNumber);
             if (bulletSpan !== undefined && bulletSpan !== null) {
-                bulletSpan.style.color = '#009900';
+                bulletSpan.style.color = '#00AA00';
                 var bullet = "";
                 var i = 0;
                 while (i < dataLength) {
@@ -142,13 +142,7 @@ var showTrackingNumbers = function () {
         trSpan.style.cssText = "font-size: 10px; top: 0;";
         $(trSpan).attr('id', 'span' + tr);
 
-        trDiv.style.cssText = "\
-            font-size: 15px; \n\
-            text-align: left; \n\
-            padding-left: 5px; \n\
-            background-color: AliceBlue; \n\
-            width: 330px;\n\
-        ";
+        trDiv.className = "div-trno";
         var trB = document.createElement("b");
         var trNum = document.createTextNode(" " + trackingNumbers[tr]);
         trB.appendChild(trSpan);
