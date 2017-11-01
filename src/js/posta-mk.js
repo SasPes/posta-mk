@@ -54,12 +54,25 @@ var callbackJson = function (res, param) {
 
         trInfoDiv.appendChild(trInfoTimeDiv);
     }
+    
+    setTrackingNumberUpdates(param, $TrackingData.length);
 };
 
 var getData = function () {
     for (var param in trackingNumbers) {
         var parameter = trackingNumbers[param];
         httpGetAsync(urlPosta, callbackJson, parameter);
+    }
+};
+
+var setTrackingNumberUpdates = function (trackingNumber, dataLength) {
+    // tracking number updates
+    var trNo = localStorage.getItem(trackingNumber);
+    console.log(trackingNumber + " => " + trNo + " => " + dataLength);
+    if (trNo === undefined || trNo === null) {
+        localStorage.setItem(trackingNumber, 0);
+    } else {
+        localStorage.setItem(trackingNumber, dataLength);
     }
 };
 
