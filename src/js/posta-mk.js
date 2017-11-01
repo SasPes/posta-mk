@@ -54,7 +54,7 @@ var callbackJson = function (res, param) {
 
         trInfoDiv.appendChild(trInfoTimeDiv);
     }
-    
+
     setTrackingNumberUpdates(param, $TrackingData.length);
 };
 
@@ -68,7 +68,6 @@ var getData = function () {
 var setTrackingNumberUpdates = function (trackingNumber, dataLength) {
     // tracking number updates
     var trNo = localStorage.getItem(trackingNumber);
-    console.log(trackingNumber + " => " + trNo + " => " + dataLength);
     if (trNo === undefined || trNo === null) {
         localStorage.setItem(trackingNumber, 0);
     } else {
@@ -148,6 +147,26 @@ var showTrackingNumbers = function () {
         trDiv.appendChild(trashSpan);
 
         trDiv.appendChild(trB);
+
+        var dataNoSpan = document.createElement("span");
+        dataNoSpan.id = trackingNumbers[tr];
+        var trNo = parseInt(localStorage.getItem(trackingNumbers[tr]));
+        if (trNo !== 0) {
+            var bullet = "";
+            var i = 0;
+            while (i < trNo) {
+                bullet = bullet + " " + String.fromCharCode(9679);
+                i++;
+            }
+            var dataNo = document.createTextNode(bullet);
+//            dataNoSpan.style.color = '#009900';
+            dataNoSpan.style.position = 'relative';
+            dataNoSpan.style.float = 'right';
+            dataNoSpan.style.top = '-2px';
+            dataNoSpan.style.right = '10px';
+            dataNoSpan.appendChild(dataNo);
+            trDiv.appendChild(dataNoSpan);
+        }
 
         var trInfoDiv = document.createElement("div");
 
