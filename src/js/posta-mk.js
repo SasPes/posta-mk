@@ -67,11 +67,25 @@ var getData = function () {
 
 var setTrackingNumberUpdates = function (trackingNumber, dataLength) {
     // tracking number updates
-    var trNo = localStorage.getItem(trackingNumber);
+    var trNo = parseInt(localStorage.getItem(trackingNumber));
     if (trNo === undefined || trNo === null) {
         localStorage.setItem(trackingNumber, 0);
     } else {
         localStorage.setItem(trackingNumber, dataLength);
+        if (trNo !== dataLength) {
+            var bulletSpan = document.getElementById(trackingNumber);
+            if (bulletSpan !== undefined && bulletSpan !== null) {
+                bulletSpan.style.color = '#009900';
+                var bullet = "";
+                var i = 0;
+                while (i < dataLength) {
+                    bullet = bullet + " " + String.fromCharCode(9679);
+                    i++;
+                }
+                $(bulletSpan).text(bullet);
+
+            }
+        }
     }
 };
 
@@ -159,7 +173,6 @@ var showTrackingNumbers = function () {
                 i++;
             }
             var dataNo = document.createTextNode(bullet);
-//            dataNoSpan.style.color = '#009900';
             dataNoSpan.style.position = 'relative';
             dataNoSpan.style.float = 'right';
             dataNoSpan.style.top = '-2px';
@@ -234,6 +247,7 @@ var reloadClicks = function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('addButton').addEventListener('click', addTrackingNumber);
+    document.getElementById('reloadButton').addEventListener('click', init);
     init();
     reloadClicks();
 });
