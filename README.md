@@ -1,7 +1,7 @@
 # Macedonian post - Track your item
 
 ## Resources
-http://posta.com.mk/TrackTrace/index.html
+http://posta.com.mk/TrackTrace/index.html  
 http://www.posta.com.mk/tnt/api/query?id=
 
 ## Example
