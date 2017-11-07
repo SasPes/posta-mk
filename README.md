@@ -9,14 +9,14 @@ http://www.posta.com.mk/tnt/api/query?id=
 <ArrayOfTrackingData>
     <TrackingData>
     <ID>RF485517880SG</ID>  
-        <Begining>Macedonia ~~(the former Yugoslav Republic of)~~</Begining>
+        <Begining>Macedonia</Begining>
         <End>SKOPJE 1003 OFFICE OF EXCHANGE</End>
         <Date>10/30/2017, 9:27:00 AM</Date>
         <Notice>Receive item at office of exchange (Inb)</Notice>
     </TrackingData>
     <TrackingData>
         <ID>RF485517880SG</ID>
-        <Begining>Macedonia ~~(the former Yugoslav Republic of)~~</Begining>
+        <Begining>Macedonia</Begining>
         <End>SKOPJE 1003 OFFICE OF EXCHANGE</End>
         <Date>10/30/2017, 2:20:00 PM</Date>
         <Notice>Send item to domestic location (Inb)</Notice>
