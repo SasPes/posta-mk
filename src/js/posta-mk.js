@@ -78,7 +78,8 @@ var setTrackingNumberUpdates = function (trackingNumber, dataLength) {
                 bulletSpan.style.color = '#00AA00';
                 var bullet = "";
                 var i = 0;
-                while (i < dataLength) {
+                var bulletLength = dataLength > 10 ? 10 : dataLength;
+                while (i < bulletLength) {
                     bullet = bullet + " " + String.fromCharCode(9679);
                     i++;
                 }
@@ -154,6 +155,12 @@ var showTrackingNumbers = function () {
         $(trashSpan).attr('id', 'trashSpan' + tr);
         trDiv.appendChild(trashSpan);
 
+        var editSpan = document.createElement("span");
+        editSpan.className = "glyphicon glyphicon-edit";
+        editSpan.style.cssText = "font-size: 12px; float: right; padding-top: 4px; padding-right: 4px;";
+        $(editSpan).attr('id', 'editSpan' + tr);
+        trDiv.appendChild(editSpan);
+
         trDiv.appendChild(trB);
 
         var dataNoSpan = document.createElement("span");
@@ -162,7 +169,8 @@ var showTrackingNumbers = function () {
         if (trNo !== 0) {
             var bullet = "";
             var i = 0;
-            while (i < trNo) {
+            var bulletLength = trNo > 10 ? 10 : trNo; // max 10 bullets
+            while (i < bulletLength) {
                 bullet = bullet + " " + String.fromCharCode(9679);
                 i++;
             }
@@ -182,6 +190,12 @@ var showTrackingNumbers = function () {
         trInfoDiv.setAttributeNode(idAtt);
         trInfoDiv.className = "collapse";
         trInfoDiv.style.cssText = "text-align: left; font-size: 12px; width: 330px;";
+
+        // add notes
+        trDiv.title = localStorage.getItem(trackingNumbers[tr] + "-note");
+        if (trDiv.title === "null") {
+            trDiv.title = '';
+        }
 
         trDivTemp.appendChild(trDiv);
         trDivTemp.appendChild(trInfoDiv);
@@ -235,6 +249,13 @@ var reloadClicks = function () {
                 showTrackingNumbers();
                 reloadClicks();
             }
+        });
+
+        $('#editSpan' + tr).click(function () {
+            var itemNote = prompt('Внесете содржина на пратката:');
+            localStorage.setItem(trackingNumbers[tr] + "-note", itemNote);
+            showTrackingNumbers();
+            reloadClicks();
         });
     }
 };
