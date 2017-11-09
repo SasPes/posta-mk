@@ -207,6 +207,8 @@ var showTrackingNumbers = function () {
 };
 
 var init = function () {
+    chrome.browserAction.setBadgeText({text: ""});
+    
     // tracking numbers
     var trackingNumbersLS = localStorage.getItem("trackingNumbers");
     if (trackingNumbersLS !== null) {

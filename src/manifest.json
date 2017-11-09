@@ -11,6 +11,9 @@
         "48": "img/posta-mk.png",
         "128": "img/posta-mk.png"
     },
+    "background": {
+        "page": "background.html"
+    },
     "permissions": [
         "http://www.posta.com.mk/*"
     ],
