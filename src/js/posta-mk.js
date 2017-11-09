@@ -207,7 +207,9 @@ var showTrackingNumbers = function () {
 };
 
 var init = function () {
-    chrome.browserAction.setBadgeText({text: ""});
+    if (chrome.browserAction !== undefined) {
+        chrome.browserAction.setBadgeText({text: ""});
+    }
     
     // tracking numbers
     var trackingNumbersLS = localStorage.getItem("trackingNumbers");
@@ -246,6 +248,8 @@ var reloadClicks = function () {
 
         $('#trashSpan' + tr).click(function () {
             if (confirm('Дали навистина скате да го избришете бројот на пратка?')) {
+                localStorage.removeItem(trackingNumbers[tr]);
+                localStorage.removeItem(trackingNumbers[tr] + "-note");
                 trackingNumbers.splice(tr, 1);
                 localStorage.setItem('trackingNumbers', JSON.stringify(trackingNumbers));
                 showTrackingNumbers();
