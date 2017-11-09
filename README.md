@@ -1,6 +1,6 @@
 # Macedonian post - Track your item
 
-![ss1](imgs/ss1.png)  
+![ss1](imgs/ss.png)  
 
 ## Resources
 http://posta.com.mk/TrackTrace/index.html  
