@@ -7,8 +7,7 @@ if (window.location.href.endsWith("node")) {
 
 var urlPosta = nodeUrl + "http://www.posta.com.mk/tnt/api/query?id=";
 
-function httpGetAsync(theUrl, callback, param)
-{
+function httpGetAsync(theUrl, callback, param) {
     var xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function () {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
@@ -258,7 +257,9 @@ var reloadClicks = function () {
         });
 
         $('#editSpan' + tr).click(function () {
-            var itemNote = prompt('Внесете содржина на пратката:');
+            var itemNote = localStorage.getItem(trackingNumbers[tr] + "-note");
+            itemNote = itemNote !== "null" ? itemNote : "";
+            itemNote = prompt('Внесете содржина на пратката:', itemNote);
             localStorage.setItem(trackingNumbers[tr] + "-note", itemNote);
             showTrackingNumbers();
             reloadClicks();
