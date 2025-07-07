@@ -3,8 +3,8 @@
 ![ss1](imgs/ss.png)  
 
 ## Resources
-http://posta.com.mk/TrackTrace/index.html  
-http://www.posta.com.mk/tnt/api/query?id=
+https://posta.com.mk/TrackTrace/index.html  
+https://www.posta.com.mk/tnt/api/query?id=
 
 ## Example
 ```xml
